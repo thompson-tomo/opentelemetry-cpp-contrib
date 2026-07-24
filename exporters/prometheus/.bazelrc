@@ -1,8 +1,6 @@
 # bazel configurations for running tests under sanitizers.
 # Based on https://github.com/bazelment/trunk/blob/master/tools/bazel.rc
 
-common --noenable_bzlmod
-
 # --config=asan : Address Sanitizer.
 common:asan --copt -DADDRESS_SANITIZER
 common:asan --copt -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,null,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound
