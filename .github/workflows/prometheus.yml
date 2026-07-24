@@ -20,16 +20,6 @@ jobs:
     name: Bazel on Linux
     runs-on: ubuntu-latest
     steps:
-      - uses: bazel-contrib/setup-bazel@0.19.0
-        env:
-          USE_BAZEL_VERSION: 7.2.0
-        with:
-          # Avoid downloading Bazel every time.
-          bazelisk-cache: true
-          # Store build cache per workflow.
-          disk-cache: ${{ github.workflow }}
-          # Share repository cache between workflows.
-          repository-cache: true
       - name: checkout otel contrib prometheus
         uses: actions/checkout@v6.0.3
         with:
@@ -42,8 +32,6 @@ jobs:
           path: /home/runner/.cache/bazel
           key: bazel_test
       - name: run tests
-        env:
-          USE_BAZEL_VERSION: 7.2.0
         run: |
           cd otel_cpp_contrib/exporters/prometheus
           bazel --output_user_root=$HOME/.cache/bazel build --copt=-DENABLE_TEST --@io_opentelemetry_cpp//api:with_abseil //...
