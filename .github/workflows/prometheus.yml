@@ -28,10 +28,6 @@ jobs:
           disk-cache: ${{ github.workflow }}
           # Share repository cache between workflows.
           repository-cache: true
-      - name: Install Bazel 7.2.0
-        run: |
-          curl -L https://releases.bazel.build/7.2.0/release/bazel-7.2.0-linux-x86_64 -o /usr/local/bin/bazel
-          chmod +x /usr/local/bin/bazel
       - name: checkout otel contrib prometheus
         uses: actions/checkout@v6.0.3
         with:
