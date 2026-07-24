@@ -20,6 +20,10 @@ jobs:
     name: Bazel on Linux
     runs-on: ubuntu-latest
     steps:
+      - name: Set up Bazel
+        uses: bazelbuild/setup-bazel@v5
+        with:
+          bazel-version: "7.2.0"
       - name: checkout otel contrib prometheus
         uses: actions/checkout@v6.0.3
         with:
@@ -34,8 +38,8 @@ jobs:
       - name: run tests
         run: |
           cd otel_cpp_contrib/exporters/prometheus
-          bazel --enable_bzlmod=0 --output_user_root=$HOME/.cache/bazel build --copt=-DENABLE_TEST --@io_opentelemetry_cpp//api:with_abseil //...
-          bazel --enable_bzlmod=0 --output_user_root=$HOME/.cache/bazel test --copt=-DENABLE_TEST --@io_opentelemetry_cpp//api:with_abseil //...
+          bazel --output_user_root=$HOME/.cache/bazel build --copt=-DENABLE_TEST --@io_opentelemetry_cpp//api:with_abseil //...
+          bazel --output_user_root=$HOME/.cache/bazel test --copt=-DENABLE_TEST --@io_opentelemetry_cpp//api:with_abseil //...
   prometheus_bazel_osx:
     name: Bazel on MacOS
     runs-on: macos-latest
