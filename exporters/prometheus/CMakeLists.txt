@@ -40,6 +40,10 @@ link_directories(${CMAKE_ARCHIVE_OUTPUT_DIRECTORY})
 find_package(opentelemetry-cpp REQUIRED)
 find_package(ZLIB REQUIRED)
 
+if(NOT TARGET ZLIB::ZLIB)
+  find_package(ZLIB CONFIG REQUIRED)
+endif()
+
 if(TARGET ZLIB::zlib AND NOT TARGET ZLIB::ZLIB)
   add_library(ZLIB::ZLIB ALIAS ZLIB::zlib)
 endif()
