@@ -26,6 +26,11 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   message(STATUS "${PROJECT_NAME} is main project")
 endif()
 
+set(ORIGINAL_BUILD_TESTING ${BUILD_TESTING})
+
+# don't build samples and tools from LinuxTracepoints.
+set(BUILD_TESTING OFF)
+
 include(FetchContent)
 
 if(MAIN_PROJECT)
@@ -38,12 +43,12 @@ FetchContent_Declare(
   prometheus-cpp
   GIT_REPOSITORY https://github.com/jupp0r/prometheus-cpp.git
   GIT_TAG e5fada43131d251e9c4786b04263ce98b6767ba5 # v1.3.0
-  CMAKE_CACHE_ARGS
-     -DENABLE_TESTING:BOOL=OFF
-     -DBUILD_TESTING:BOOL=OFF
 )
 
 FetchContent_MakeAvailable(prometheus-cpp)
+
+# Restore original values
+set(BUILD_TESTING ${ORIGINAL_BUILD_TESTING})
 
 get_target_property(OPENTELEMETRY_CPP_API_DEFINITIONS opentelemetry-cpp::api
                     INTERFACE_COMPILE_DEFINITIONS)
