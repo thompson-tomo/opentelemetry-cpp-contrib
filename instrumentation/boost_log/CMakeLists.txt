@@ -103,7 +103,6 @@ if(BUILD_TESTING)
     GTest::gtest
     GTest::gtest_main
     Boost::log
-    opentelemetry-cpp::api
     opentelemetry-cpp::ostream_log_record_exporter
     ${this_target}
   )
@@ -125,7 +124,6 @@ if(WITH_EXAMPLES)
   )
 
   target_link_libraries(${example_exe} PRIVATE
-    opentelemetry-cpp::api
     opentelemetry-cpp::logs
     opentelemetry-cpp::trace
     opentelemetry-cpp::ostream_log_record_exporter
