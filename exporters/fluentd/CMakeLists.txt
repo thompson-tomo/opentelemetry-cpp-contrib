@@ -145,10 +145,6 @@ if(BUILD_TESTING)
   include(GoogleTest)
 
   # build trace exporter tests
-  target_include_directories(fluentd_recordable_trace_test PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/include
-  )
-
   add_executable(
     fluentd_recordable_trace_test test/trace/fluentd_recordable_test.cc
                                   test/trace/fluentd_baseline_test.cc)
@@ -170,10 +166,6 @@ if(BUILD_TESTING)
     TEST_LIST fluentd_recordable_trace_test)
 
   # build log exporter tests
-  target_include_directories(fluentd_recordable_logs_test PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/include
-  )
-
   add_executable(fluentd_recordable_logs_test
                  test/log/fluentd_recordable_test.cc)
 
