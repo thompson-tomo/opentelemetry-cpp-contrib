@@ -13,3 +13,4 @@ wget
 git
 valgrind
 lcov
+civetweb
