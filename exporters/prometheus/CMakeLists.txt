@@ -26,11 +26,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   message(STATUS "${PROJECT_NAME} is main project")
 endif()
 
-set(ORIGINAL_BUILD_TESTING ${BUILD_TESTING})
-set(USE_THIRDPARTY_LIBRARIES OFF)
-
-# don't build samples and tools from LinuxTracepoints.
-set(BUILD_TESTING OFF)
+set(ENABLE_TESTING OFF)
 
 include(FetchContent)
 
@@ -45,17 +41,8 @@ FetchContent_Declare(
   GIT_REPOSITORY https://github.com/jupp0r/prometheus-cpp.git
   GIT_TAG e5fada43131d251e9c4786b04263ce98b6767ba5 # v1.3.0
 )
-FetchContent_Declare(
-  civetweb
-  GIT_REPOSITORY https://github.com/civetweb/civetweb.git
-  GIT_TAG d7ba35bbb649209c66e582d5a0244ba988a15159 # v1.16.0
-)
 
 FetchContent_MakeAvailable(prometheus-cpp)
-FetchContent_MakeAvailable(civetweb)
-
-# Restore original values
-set(BUILD_TESTING ${ORIGINAL_BUILD_TESTING})
 
 get_target_property(OPENTELEMETRY_CPP_API_DEFINITIONS opentelemetry-cpp::api
                     INTERFACE_COMPILE_DEFINITIONS)
