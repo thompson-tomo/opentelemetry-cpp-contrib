@@ -27,6 +27,7 @@ if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
 endif()
 
 set(ORIGINAL_BUILD_TESTING ${BUILD_TESTING})
+set(USE_THIRDPARTY_LIBRARIES OFF)
 
 # don't build samples and tools from LinuxTracepoints.
 set(BUILD_TESTING OFF)
