@@ -28,9 +28,6 @@ endif()
 
 include(FetchContent)
 
-set(ENABLE_TESTING OFF CACHE BOOL "")
-set(BUILD_TESTING OFF CACHE BOOL "")
-
 if(MAIN_PROJECT)
   find_package(opentelemetry-cpp REQUIRED)
 endif()
