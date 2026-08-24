@@ -5,17 +5,25 @@ cmake_minimum_required(VERSION 3.12)
 
 set(this_target opentelemetry_spdlog_sink)
 
-project(${this_target})
+set(MAIN_PROJECT OFF)
+
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(MAIN_PROJECT ON)
+  project(${this_target})
+  message(STATUS "${PROJECT_NAME} is main project")
+endif()
 
 include(FetchContent)
 
-FetchContent_Declare(
-  opentelemetry-cpp
-  GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
-  GIT_TAG b9cf499ff5715433848b316059714b5c59af1f2c # v1.21.0
-)
+if(MAIN_PROJECT)
+  FetchContent_Declare(
+    opentelemetry-cpp
+    GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
+    GIT_TAG b9cf499ff5715433848b316059714b5c59af1f2c # v1.21.0
+  )
 
-FetchContent_MakeAvailable(opentelemetry-cpp)
+  FetchContent_MakeAvailable(opentelemetry-cpp)
+endif()
 
 find_package(spdlog REQUIRED)
 
@@ -30,29 +38,42 @@ target_include_directories(${this_target} PUBLIC
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
 )
 
-target_link_libraries(${this_target} PUBLIC 
-  opentelemetry-cpp::api
-)
+if(MAIN_PROJECT)
+  target_link_libraries(${this_target} PUBLIC 
+    opentelemetry-cpp::api
+  )
+endif()
 
 target_link_libraries(${this_target} PRIVATE
   spdlog::spdlog
 )
 
 if(OPENTELEMETRY_INSTALL)
-  include(GNUInstallDirs)
+  if(MAIN_PROJECT)
+    include(GNUInstallDirs)
 
-  install(
-    TARGETS ${this_target}
-    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-    INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
+    install(
+      TARGETS ${this_target}
+      EXPORT "${PROJECT_NAME}-target"
+      RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+      LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
+      INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR})
 
-  install(
-    DIRECTORY include/opentelemetry/instrumentation/spdlog
-    DESTINATION include/opentelemetry/instrumentation
-    FILES_MATCHING
-    PATTERN "*.h")
+    install(
+      DIRECTORY include/opentelemetry/instrumentation/spdlog
+      DESTINATION include/opentelemetry/instrumentation
+      FILES_MATCHING
+      PATTERN "*.h")
+  else()
+    otel_add_component(
+      COMPONENT instrumentation_spdlog
+      TARGETS ${this_target}
+      FILES_DIRECTORY "include/opentelemetry/instrumentation/spdlog"
+      FILES_DESTINATION "include/opentelemetry/instrumentation"
+      FILES_MATCHING
+      PATTERN "*.h")
+  endif()
 endif() # OPENTELEMETRY_INSTALL
 
 if(BUILD_TESTING)

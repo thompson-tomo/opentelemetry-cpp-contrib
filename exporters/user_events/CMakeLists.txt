@@ -166,16 +166,10 @@ if(MAIN_PROJECT)
     PATTERN "*.h")
 else()
   otel_add_component(
-    COMPONENT
-    exporters_user_events
-    TARGETS
-    opentelemetry_exporter_user_events_logs
-    opentelemetry_exporter_user_events_metrics
-    FILES_DIRECTORY
-    "include/opentelemetry/exporters/user_events"
-    FILES_DESTINATION
-    "include/opentelemetry/exporters"
+    COMPONENT exporters_user_events
+    TARGETS opentelemetry_exporter_user_events_logs opentelemetry_exporter_user_events_metrics
+    FILES_DIRECTORY "include/opentelemetry/exporters/user_events"
+    FILES_DESTINATION "include/opentelemetry/exporters"
     FILES_MATCHING
-    PATTERN
-    "*.h")
+    PATTERN "*.h")
 endif()
