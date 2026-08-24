@@ -33,6 +33,8 @@ target_compile_options(${this_target} PUBLIC
   -Wall -Wextra -Wpedantic -fPIC
 )
 
+set_target_properties(${this_target} PROPERTIES EXPORT_NAME ${this_target})
+
 target_include_directories(${this_target} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
@@ -102,7 +104,6 @@ if(BUILD_TESTING)
     GTest::gtest
     GTest::gtest_main
     spdlog::spdlog
-    opentelemetry-cpp::api
     opentelemetry-cpp::ostream_log_record_exporter
     ${this_target}
   )
@@ -124,7 +125,6 @@ if(WITH_EXAMPLES)
   )
 
   target_link_libraries(${example_exe} PRIVATE
-    opentelemetry-cpp::api
     opentelemetry-cpp::logs
     opentelemetry-cpp::trace
     opentelemetry-cpp::ostream_log_record_exporter

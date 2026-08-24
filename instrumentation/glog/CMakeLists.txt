@@ -33,6 +33,8 @@ target_compile_options(${this_target} PUBLIC
   -Wno-error=deprecated-declarations
 )
 
+set_target_properties(${this_target} PROPERTIES EXPORT_NAME ${this_target})
+
 target_include_directories(${this_target} PUBLIC
   $<BUILD_INTERFACE:${CMAKE_CURRENT_LIST_DIR}/include>
   $<INSTALL_INTERFACE:${CMAKE_INSTALL_INCLUDEDIR}>
