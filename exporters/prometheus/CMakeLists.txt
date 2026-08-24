@@ -14,18 +14,27 @@
 
 cmake_minimum_required(VERSION 3.12)
 
-project(
-  opentelemetry-cpp-contrib
-  VERSION "1.19.0" # opentelemetry-cpp-contrib 1.19.0
-  HOMEPAGE_URL "https://github.com/open-telemetry/opentelemetry-cpp-contrib"
-  LANGUAGES CXX)
+set(MAIN_PROJECT OFF)
+
+if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
+  set(MAIN_PROJECT ON)
+  project(
+    opentelemetry-cpp-contrib
+    VERSION "1.19.0" # opentelemetry-cpp-contrib 1.19.0
+    HOMEPAGE_URL "https://github.com/open-telemetry/opentelemetry-cpp-contrib"
+    LANGUAGES CXX)
+  message(STATUS "${PROJECT_NAME} is main project")
+endif()
 
 include(FetchContent)
 
 set(ENABLE_TESTING OFF CACHE BOOL "")
 set(BUILD_TESTING OFF CACHE BOOL "")
 
-find_package(opentelemetry-cpp REQUIRED)
+if(MAIN_PROJECT)
+  find_package(opentelemetry-cpp REQUIRED)
+endif()
+
 find_package(ZLIB REQUIRED)
 
 FetchContent_Declare(
@@ -165,17 +174,28 @@ elseif(UNIX OR MINGW)
   endif()
 endif()
 
-install(
-  TARGETS opentelemetry_prometheus_push_exporter
-  RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-  LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
-  ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
+if(MAIN_PROJECT)
+  install(
+    TARGETS opentelemetry_prometheus_push_exporter
+    EXPORT "${PROJECT_NAME}-target"
+    RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
+    LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
+    ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR})
 
-install(
-  DIRECTORY include/opentelemetry/exporters/prometheus
-  DESTINATION include/opentelemetry/exporters/
-  FILES_MATCHING
-  PATTERN "*.h")
+  install(
+    DIRECTORY include/opentelemetry/exporters/prometheus
+    DESTINATION include/opentelemetry/exporters/
+    FILES_MATCHING
+    PATTERN "*.h")
+else()
+  otel_add_component(
+    COMPONENT exporters_prometheus
+    TARGETS opentelemetry_prometheus_push_exporter
+    FILES_DIRECTORY "include/opentelemetry/exporters/prometheus"
+    FILES_DESTINATION "include/opentelemetry/exporters"
+    FILES_MATCHING
+    PATTERN "*.h")
+endif()
 
 if(BUILD_TESTING)
   add_subdirectory(test)
