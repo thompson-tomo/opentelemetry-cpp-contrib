@@ -1,7 +1,7 @@
 # Copyright The OpenTelemetry Authors
 # SPDX-License-Identifier: Apache-2.0
 
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.16)
 
 # MAIN_PROJECT CHECK determine if fluentd exporter is built as a subproject
 # (using add_subdirectory) or if it is the main project
