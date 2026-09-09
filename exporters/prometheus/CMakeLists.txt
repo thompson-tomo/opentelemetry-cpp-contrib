@@ -14,15 +14,14 @@
 
 cmake_minimum_required(VERSION 3.16)
 
+set(this_target opentelemetry_prometheus)
+
+project(${this_target})
+
 set(MAIN_PROJECT OFF)
 
 if(CMAKE_CURRENT_SOURCE_DIR STREQUAL CMAKE_SOURCE_DIR)
   set(MAIN_PROJECT ON)
-  project(
-    opentelemetry-cpp-contrib
-    VERSION "1.19.0" # opentelemetry-cpp-contrib 1.19.0
-    HOMEPAGE_URL "https://github.com/open-telemetry/opentelemetry-cpp-contrib"
-    LANGUAGES CXX)
   message(STATUS "${PROJECT_NAME} is main project")
 endif()
 
