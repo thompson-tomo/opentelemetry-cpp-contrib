@@ -93,15 +93,11 @@ if(BUILD_TESTING)
     ${CMAKE_CURRENT_LIST_DIR}/test/decoder/kaitai
   )
 
-  target_include_directories(${testname} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/include
-    ${OPENTELEMETRY_CPP_INCLUDE_DIRS}
-  )
-
   target_link_libraries(${testname} PRIVATE
     GTest::gmock
     GTest::gtest
     GTest::gtest_main
+    ${OPENTELEMETRY_CPP_LIBRARIES}
     opentelemetry_exporter_geneva_metrics)
 
   gtest_add_tests(
@@ -146,12 +142,8 @@ if(WITH_EXAMPLES)
                                  example/foo_library.cc)
   set_target_properties(${example_exe} PROPERTIES EXPORT_NAME ${example_exe})
 
-  target_include_directories(${example_exe} PUBLIC
-    ${CMAKE_CURRENT_LIST_DIR}/include
-    ${OPENTELEMETRY_CPP_INCLUDE_DIRS}
-  )
-
   target_link_libraries(${example_exe} PRIVATE
+    ${OPENTELEMETRY_CPP_LIBRARIES}
     opentelemetry_exporter_geneva_metrics
   )
 
