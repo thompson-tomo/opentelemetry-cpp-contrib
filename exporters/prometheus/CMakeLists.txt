@@ -35,13 +35,23 @@ endif()
 
 find_package(ZLIB REQUIRED)
 
-FetchContent_Declare(
-  prometheus-cpp
-  GIT_REPOSITORY https://github.com/jupp0r/prometheus-cpp.git
-  GIT_TAG e5fada43131d251e9c4786b04263ce98b6767ba5 # v1.3.0
-)
+find_package(prometheus-cpp CONFIG QUIET)
+set(prometheus-cpp_PROVIDER "find_package")
 
-FetchContent_MakeAvailable(prometheus-cpp)
+if(NOT prometheus-cpp_FOUND)
+  FetchContent_Declare(
+    prometheus-cpp
+    GIT_REPOSITORY https://github.com/jupp0r/prometheus-cpp.git
+    GIT_TAG e5fada43131d251e9c4786b04263ce98b6767ba5 # v1.3.0
+  )
+
+  FetchContent_MakeAvailable(prometheus-cpp)
+endif()
+
+if(NOT TARGET prometheus-cpp::core OR
+   NOT TARGET prometheus-cpp::pull)
+  message(FATAL_ERROR "A required prometheus-cpp target (prometheus-cpp::core or prometheus-cpp::pull) was not imported")
+endif()
 
 get_target_property(OPENTELEMETRY_CPP_API_DEFINITIONS opentelemetry-cpp::api
                     INTERFACE_COMPILE_DEFINITIONS)
