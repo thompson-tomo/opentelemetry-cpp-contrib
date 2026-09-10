@@ -26,11 +26,8 @@ if(MAIN_PROJECT)
   find_package(opentelemetry-cpp REQUIRED)
 endif()
 
-if(NOT BUILD_TRACEPOINTS)
-  find_package(eventheader-headers QUIET)
-endif()
 
-if(BUILD_TRACEPOINTS OR NOT eventheader-headers_FOUND)
+if(BUILD_TRACEPOINTS)
   set(ORIGINAL_BUILD_SAMPLES ${BUILD_SAMPLES})
   set(ORIGINAL_BUILD_TOOLS ${BUILD_TOOLS})
 
@@ -48,6 +45,8 @@ if(BUILD_TRACEPOINTS OR NOT eventheader-headers_FOUND)
   # Restore original values
   set(BUILD_SAMPLES ${ORIGINAL_BUILD_SAMPLES})
   set(BUILD_TOOLS ${ORIGINAL_BUILD_TOOLS})
+else()
+  find_package(eventheader-headers REQUIRED CONFIG)
 endif()
 
 include_directories(include)
