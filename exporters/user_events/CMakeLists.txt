@@ -30,7 +30,7 @@ if(NOT BUILD_TRACEPOINTS)
   find_package(eventheader-headers QUIET)
 endif()
 
-if(BUILD_TRACEPOINTS OR NOT eventheader_headers_FOUND)
+if(BUILD_TRACEPOINTS OR NOT eventheader-headers_FOUND)
   set(ORIGINAL_BUILD_SAMPLES ${BUILD_SAMPLES})
   set(ORIGINAL_BUILD_TOOLS ${BUILD_TOOLS})
 
