@@ -19,13 +19,9 @@ endif()
     
 add_definitions(-DHAVE_CONSOLE_LOG)
 if(MAIN_PROJECT)
-  FetchContent_Declare(
-    opentelemetry-cpp
-    GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
-    GIT_TAG b9cf499ff5715433848b316059714b5c59af1f2c # v1.21.0
-  )
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../cmake")
 
-  FetchContent_MakeAvailable(opentelemetry-cpp)
+  include(opentelemetry-cpp)
 endif()
 
 include_directories(include)

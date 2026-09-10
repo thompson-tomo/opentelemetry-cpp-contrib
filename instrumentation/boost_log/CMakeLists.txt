@@ -16,13 +16,8 @@ endif()
 include(FetchContent)
 
 if(MAIN_PROJECT)
-  FetchContent_Declare(
-    opentelemetry-cpp
-    GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
-    GIT_TAG b9cf499ff5715433848b316059714b5c59af1f2c # v1.21.0
-  )
-
-  FetchContent_MakeAvailable(opentelemetry-cpp)
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../cmake")
+  include(opentelemetry-cpp)
 endif()
 
 find_package(Boost 1.73 COMPONENTS log REQUIRED)

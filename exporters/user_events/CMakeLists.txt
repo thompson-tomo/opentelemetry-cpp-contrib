@@ -24,13 +24,8 @@ if(MAIN_PROJECT)
   find_package(CURL REQUIRED)
   find_package(nlohmann_json REQUIRED)
 
-  FetchContent_Declare(
-    opentelemetry-cpp
-    GIT_REPOSITORY https://github.com/open-telemetry/opentelemetry-cpp.git
-    GIT_TAG ea1f0d61ce5baa5584b097266bf133d1f31e3607 # v1.23.0
-  )
-
-  FetchContent_MakeAvailable(opentelemetry-cpp)
+  list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/../../cmake")
+  include(opentelemetry-cpp)
 endif()
 
 if(BUILD_TRACEPOINTS)
