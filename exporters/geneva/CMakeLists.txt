@@ -132,7 +132,6 @@ if(WITH_EXAMPLES)
   set(example_exe example_metrics)
   add_executable(${example_exe} example/example_metrics.cc
                                  example/foo_library.cc)
-  set_target_properties(${example_exe} PROPERTIES EXPORT_NAME ${example_exe})
 
   target_link_libraries(${example_exe} PRIVATE opentelemetry_exporter_geneva_metrics)
 
