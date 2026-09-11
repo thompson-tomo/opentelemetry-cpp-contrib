@@ -14,7 +14,7 @@
 
 cmake_minimum_required(VERSION 3.16)
 
-set(this_target opentelemetry_prometheus)
+set(this_target opentelemetry-cpp-contrib-prometheus-push-exporter)
 
 project(${this_target})
 
@@ -194,7 +194,7 @@ if(MAIN_PROJECT)
     PATTERN "*.h")
 else()
   otel_add_component(
-    COMPONENT exporters_prometheus
+    COMPONENT exporters_prometheus_push
     TARGETS opentelemetry_prometheus_push_exporter
     FILES_DIRECTORY "include/opentelemetry/exporters/prometheus"
     FILES_DESTINATION "include/opentelemetry/exporters"
