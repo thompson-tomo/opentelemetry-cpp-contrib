@@ -53,11 +53,6 @@ set_target_properties(
   opentelemetry_exporter_geneva_metrics
   PROPERTIES EXPORT_NAME opentelemetry_exporter_geneva_metrics)
 
-if(MAIN_PROJECT)
-   target_include_directories(opentelemetry_exporter_geneva_metrics
-                      PRIVATE ${OPENTELEMETRY_CPP_INCLUDE_DIRS})
-endif()
-
 target_link_libraries(opentelemetry_exporter_geneva_metrics
                       PUBLIC opentelemetry-cpp::metrics opentelemetry-cpp::resources opentelemetry-cpp::common)
 
