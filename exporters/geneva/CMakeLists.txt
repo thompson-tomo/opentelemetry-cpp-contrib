@@ -56,12 +56,10 @@ set_target_properties(
 if(MAIN_PROJECT)
    target_include_directories(opentelemetry_exporter_geneva_metrics
                       PRIVATE ${OPENTELEMETRY_CPP_INCLUDE_DIRS})
-   target_link_libraries(opentelemetry_exporter_geneva_metrics
-                      PUBLIC ${OPENTELEMETRY_CPP_LIBRARIES})
-else()
-   target_link_libraries(opentelemetry_exporter_geneva_metrics
-                      PUBLIC opentelemetry_metrics opentelemetry_resources opentelemetry_common)
 endif()
+
+target_link_libraries(opentelemetry_exporter_geneva_metrics
+                      PUBLIC opentelemetry-cpp::metrics opentelemetry-cpp::resources opentelemetry-cpp::common)
 
 set_target_version(opentelemetry_exporter_geneva_metrics)
 
@@ -97,7 +95,6 @@ if(BUILD_TESTING)
     GTest::gmock
     GTest::gtest
     GTest::gtest_main
-    ${OPENTELEMETRY_CPP_LIBRARIES}
     opentelemetry_exporter_geneva_metrics)
 
   gtest_add_tests(
@@ -142,10 +139,7 @@ if(WITH_EXAMPLES)
                                  example/foo_library.cc)
   set_target_properties(${example_exe} PROPERTIES EXPORT_NAME ${example_exe})
 
-  target_link_libraries(${example_exe} PRIVATE
-    ${OPENTELEMETRY_CPP_LIBRARIES}
-    opentelemetry_exporter_geneva_metrics
-  )
+  target_link_libraries(${example_exe} PRIVATE opentelemetry_exporter_geneva_metrics)
 
   if(NOT WIN32)
     add_executable(stress_test_linux example/stress_test_linux.cc)
